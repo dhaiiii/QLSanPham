@@ -1,0 +1,16 @@
+{
+  "post": [
+    {
+      "id": 1,
+      "username": "do hong hai",
+      "password": "123456"
+    },
+    {
+      "id":2 ,
+      "username":"do hai",
+      "password" :"123"
+    }
+  ]
+
+  
+}
