@@ -6,9 +6,9 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "./config/firebase";
 
 function ForgotPassword() {
   const navigation = useNavigation();
@@ -19,22 +19,23 @@ function ForgotPassword() {
   const [passwordAgainError, setPasswordAgainError] = useState("");
 
   const handleForgotPassword = () => {
-    setPassword("");
-    setPasswordAgain("");
+    setPasswordError("");
+    setPasswordAgainError("");
 
     if (!password) {
-      setPasswordError("Vui lòng nhập password");
+      setPasswordError("Please enter a password");
     }
     if (!passwordAgain) {
-      setPasswordAgainError("Vui lòng nhập lại mật khẩu");
+      setPasswordAgainError("Please re-enter the password");
     }
-    if (password && passwordAgain !== password) {
-      setPasswordAgainError("Mật khẩu lặp lại không khớp");
+    if (password !== passwordAgain) {
+      setPasswordAgainError("Passwords do not match");
     }
     if (password && passwordAgain === password) {
-      auth().createUserWithPasswordandPasswordAgain(password, passwordAgain);
+      // You might want to implement password reset logic here
       Alert.alert(
-        "Đổi mật khẩu thành công",
+        "Password changed successfully",
+        "Your password has been changed.",
         [
           {
             text: "OK",
@@ -49,68 +50,78 @@ function ForgotPassword() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Forgot the Password</Text>
+    <ImageBackground style={styles.img} source={require("./image/anh6.jpg")}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Forgot Password</Text>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+        {passwordError ? (
+          <Text style={styles.error}>{passwordError}</Text>
+        ) : null}
 
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => setPasswordAgain(text)}
-        value={passwordAgain}
-        placeholder="Password Again"
-        secureTextEntry={true}
-      />
-      {passwordAgainError ? (
-        <Text style={styles.error}>{passwordAgainError}</Text>
-      ) : null}
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setPasswordAgain(text)}
+          value={passwordAgain}
+          placeholder="Re-enter Password"
+          secureTextEntry={true}
+        />
+        {passwordAgainError ? (
+          <Text style={styles.error}>{passwordAgainError}</Text>
+        ) : null}
 
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={handleForgotPassword}
-      >
-        <Text style={styles.buttonText}>Forgot the Password</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={handleForgotPassword}
+        >
+          <Text style={styles.buttonText}>Reset Password</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 }
+
 const styles = StyleSheet.create({
+  img: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#f2f2f2",
   },
   title: {
-    fontSize: 30,
-    color: "red",
-    position: "absolute",
-    top: 70,
+    fontSize: 24,
+    color: "black",
+    marginBottom: 20,
   },
   input: {
-    width: 250,
+    width: 300,
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
-    marginTop: 20,
+    marginTop: 10,
     paddingHorizontal: 10,
+    borderRadius: 8,
   },
   error: {
     color: "red",
-    marginTop: 10,
+    marginTop: 5,
   },
   buttonContainer: {
     backgroundColor: "blue",
     paddingVertical: 15,
     paddingHorizontal: 70,
-    marginTop: 70,
-    borderRadius: 30,
+    marginTop: 20,
+    borderRadius: 20,
   },
   buttonText: {
     color: "white",

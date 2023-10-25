@@ -15,6 +15,8 @@ import Notifica from "./src/Notification";
 import Carts from "./src/Cart";
 import ViewInfo from "./src/ViewInfo";
 import ProductDetail from "./src/ProductDetail";
+import Messages from "./src/Message";
+import Buys from "./src/Buy";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -157,6 +159,8 @@ const App = () => {
         <Stack.Screen name="ProductDetail" component={ProductDetail} />
         <Stack.Screen name="ViewInfo" component={ViewInfo} />
         <Stack.Screen name="Search" component={Searchs} />
+        <Stack.Screen name="Message" component={Messages} />
+        <Stack.Screen name="Buy" component={Buys} />
         <Stack.Screen
           name="Home"
           component={BottomTabNavigator} // Sử dụng BottomTabNavigator là một trong các màn hình

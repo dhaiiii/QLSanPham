@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { firestore } from "./config/firebase";
 
-const Home = (props) => {
+const HomeScreen = (props) => {
   const [isLoading, setisLoading] = useState(true);
   const [dssp, setdssp] = useState([]);
   const navigation = useNavigation();
@@ -58,6 +58,7 @@ const Home = (props) => {
                   // Thay đổi trạng thái màn hình hiện tại sang màn hình "Product" và truyền `productData`
                   navigation.navigate("ProductDetail", {
                     productDetailData: item,
+                    // buysData: item,
                   });
                 }}
                 style={styles.productContainer}
@@ -116,4 +117,4 @@ const styles = StyleSheet.create({
   searchContainer: {},
 });
 
-export default Home;
+export default HomeScreen;

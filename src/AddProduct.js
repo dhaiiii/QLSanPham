@@ -41,26 +41,44 @@ const Add = ({ navigation, route }) => {
       Image: linkAnh,
     };
 
-    const handleaddProduct = async () => {
-      try {
-        console.log("add ");
-        const response = await axios.post(
-          "http://192.168.61.101:3000/api/userLogin",
-          {
-            username,
-            passwd,
-          }
-        );
-        console.log("OK");
-        console.log(response.data);
-        if (response.status === 200) {
-          Alert.alert("Đăng nhập thành công!");
-          navigation.navigate("Home");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const handleaddProduct = async () => {
+    //   try {
+    //     console.log("add ");
+    //     const response = await axios.post(
+    //       "http://192.168.61.101:3000/api/userAddproduct",
+    //       {
+    //         username,
+    //         passwd,
+    //       }
+    //     );
+    //     console.log("OK");
+    //     console.log(response.data);
+    //     if (response.status === 200) {
+    //       Alert.alert("Them san pham thanh cong!");
+    //       navigation.navigate("Home");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+
+    firestore()
+      .collection("addProduct")
+      .add(objSP)
+      .then(() => {
+        Alert.alert("Thành công", "Đã thêm sản phẩm thành công!");
+        // Làm mới màn hình Home
+
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        });
+        navigation.navigate("Home");
+      })
+      .catch((error) => {
+        console.error("Lỗi khi thêm sản phẩm:", error);
+        Alert.alert("Lỗi", "Đã xảy ra lỗi khi thêm sản phẩm.");
+      });
   };
 
   return (

@@ -1,8 +1,23 @@
 import React from "react";
 import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
+import Carts from "./Cart";
+import Messages from "./Message";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-const ProductDetail = ({ route }) => {
+const ProductDetail = ({ route, navigation }) => {
   const { productDetailData } = route.params;
+
+  const handleCart = () => {
+    navigation.navigate("Cart");
+  };
+  const handleMessage = () => {
+    navigation.navigate("Message");
+  };
+  const handleBuy = () => {
+    navigation.navigate("Buy", { buyData: productDetailData });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Chi tiết sản phẩm</Text>
@@ -23,8 +38,20 @@ const ProductDetail = ({ route }) => {
           source={{ uri: productDetailData.Image }}
           style={styles.productDetailImage}
         />
-        <View style={styles.btn1}>
-          <Button title="mua hàng" style={styles.btn} />
+        <View style={styles.btn2}>
+          <View style={styles.btn1}>
+            <Button
+              onPress={handleMessage}
+              title="nhắn tin"
+              style={styles.btn}
+            />
+          </View>
+          <View style={styles.btn1}>
+            <Button onPress={handleCart} title="giỏ hàng" style={styles.btn} />
+          </View>
+          <View style={styles.btn1}>
+            <Button onPress={handleBuy} title="mua hàng" style={styles.btn} />
+          </View>
         </View>
       </View>
     </View>
@@ -64,6 +91,12 @@ const styles = StyleSheet.create({
     height: 200,
   },
   btn1: {
-    top: 200,
+    top: 350,
+    flex: 1, // Chia đều khoảng trống cho các nút
+    margin: 5,
+  },
+  btn2: {
+    flexDirection: "row", // Xếp theo hàng ngang
+    justifyContent: "space-between", // Canh đều các phần tử
   },
 });
