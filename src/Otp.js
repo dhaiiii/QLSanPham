@@ -1,110 +1,211 @@
-import React, { useState, useRef } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Input } from "react-native-elements";
-import axios from "axios";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useRef, useState } from "react";
+import { Alert, TextInput, Touchable } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import { useEffect } from "react";
 
-const OtpScreen = () => {
-  const navigation = useNavigation();
+const Otp = () => {
+  const et1 = useRef();
+  const et2 = useRef();
+  const et3 = useRef();
+  const et4 = useRef();
 
-  const [otp, setOtp] = useState(["", "", "", ""]);
-  const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+  const [opt1, setOtp1] = useState("");
+  const [opt2, setOtp2] = useState("");
+  const [opt3, setOtp3] = useState("");
+  const [opt4, setOtp4] = useState("");
+  const [count, setCount] = useState(60);
 
-  const handleOtpChange = (value, index) => {
-    if (index >= 0 && index < 4) {
-      const updatedOtp = [...otp];
-      updatedOtp[index] = value;
-      setOtp(updatedOtp);
-
-      if (value && index < 3) {
-        // Auto-focus the next input field
-        inputRefs[index + 1].current.focus();
-      }
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    const otpValue = otp.join("");
-
-    try {
-      const response = await axios.post("", {
-        otp: otpValue,
-      });
-
-      if (response.data.success) {
-        // Mã OTP hợp lệ, thực hiện các xử lý tiếp theo
-        console.log("Mã OTP hợp lệ");
-        navigation.navigate("Home");
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (count == 0) {
+        clearInterval(interval);
       } else {
-        // Mã OTP không hợp lệ
-        console.log("Mã OTP không hợp lệ");
+        setCount(count - 1);
       }
-    } catch (error) {
-      // Xử lý lỗi nếu có
-      console.error("Lỗi khi gọi API:", error);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [count]);
+  const otpValidate = () => {
+    let otp = "1234";
+    let enterdOtp = opt1 + opt2 + opt3 + opt4;
+    if (enterdOtp == otp) {
+      Alert.alert("Mã Otp đúng");
+    } else {
+      Alert.alert("Mã OTP sai");
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Xác minh mã OTP</Text>
-      <View style={styles.otpContainer}>
-        {otp.map((value, index) => (
-          <Input
-            key={index}
-            value={value}
-            onChangeText={(text) => handleOtpChange(text, index)}
-            keyboardType="numeric"
-            maxLength={1}
-            containerStyle={styles.otpInputContainer}
-            inputContainerStyle={styles.otpInput}
-            ref={inputRefs[index]}
-          />
-        ))}
+    <View style={StyleSheet.conatainer}>
+      <Text style={styles.title}>OTP Verification</Text>
+      <View style={styles.otpView}>
+        <TextInput
+          ref={et1}
+          style={[
+            styles.inputView,
+            { borderColor: opt1.length >= 1 ? "blue" : "#000" },
+          ]}
+          keyboardType="number-pad"
+          maxLength={1}
+          value={opt1}
+          onChangeText={(txt) => {
+            setOtp1(txt);
+            if (txt.length >= 1) {
+              et2.current.focus();
+            }
+          }}
+        />
+        <TextInput
+          ref={et2}
+          style={[
+            styles.inputView,
+            { borderColor: opt2.length >= 1 ? "blue" : "#000" },
+          ]}
+          keyboardType="number-pad"
+          maxLength={1}
+          value={opt2}
+          onChangeText={(txt) => {
+            setOtp2(txt);
+            if (txt.length >= 1) {
+              et3.current.focus();
+            } else if (txt.length < 1) {
+              et1.current.focus();
+            }
+          }}
+        />
+        <TextInput
+          ref={et3}
+          style={[
+            styles.inputView,
+            { borderColor: opt3.length >= 1 ? "blue" : "#000" },
+          ]}
+          keyboardType="number-pad"
+          maxLength={1}
+          value={opt3}
+          onChangeText={(txt) => {
+            setOtp3(txt);
+            if (txt.length >= 1) {
+              et4.current.focus();
+            } else if (txt.length < 1) {
+              et2.current.focus();
+            }
+          }}
+        />
+        <TextInput
+          ref={et4}
+          style={[
+            styles.inputView,
+            { borderColor: opt4.length >= 1 ? "blue" : "#000" },
+          ]}
+          keyboardType="number-pad"
+          maxLength={1}
+          value={opt4}
+          onChangeText={(txt) => {
+            setOtp4(txt);
+            if (txt.length >= 1) {
+              et4.current.focus();
+            } else if (txt.length < 1) {
+              et3.current.focus();
+            }
+          }}
+        />
       </View>
-      <TouchableOpacity style={styles.verifyButton} onPress={handleVerifyOtp}>
-        <Text style={styles.verifyButtonText}>Xác minh</Text>
+      <View style={styles.resend}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "700",
+            color: count == 0 ? "blue" : "gray",
+          }}
+          onPress={() => {
+            setCount(60);
+          }}
+        >
+          Resend
+        </Text>
+        {count !== 0 && (
+          <Text style={{ marginLeft: 20, fontSize: 20 }}>
+            {count + "seconds"}
+          </Text>
+        )}
+      </View>
+      <TouchableOpacity
+        disabled={
+          opt1 !== "" && opt2 !== "" && opt3 !== "" && opt4 !== ""
+            ? false
+            : true
+        }
+        style={[
+          styles.verify,
+          {
+            backgroundColor:
+              opt1 !== "" && opt2 !== "" && opt3 !== "" && opt4 !== ""
+                ? "blue"
+                : "#949494",
+          },
+        ]}
+        onPress={() => {
+          otpValidate();
+        }}
+      >
+        <Text style={styles.btn}>Verify OTP</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
+export default Otp;
+
 const styles = StyleSheet.create({
-  container: {
+  conatainer: {
     flex: 1,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    marginTop: 100,
+    alignSelf: "center",
+    color: "#000",
+  },
+  otpView: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 100,
+  },
+  inputView: {
+    width: 50,
+    height: 50,
+    borderWidth: 0.5,
+    borderRadius: 10,
+    marginLeft: 10,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  verify: {
+    width: "90%",
+    height: 55,
+    backgroundColor: "blue",
+    borderRadius: 20,
+    alignSelf: "center",
+    marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+  btn: {
+    color: "#fff",
+    fontSize: 20,
   },
-  otpContainer: {
+  resend: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  otpInputContainer: {
-    width: "20%",
-  },
-  otpInput: {
-    borderBottomColor: "#2196F3",
-    borderBottomWidth: 2,
-    borderRadius: 10,
-  },
-  verifyButton: {
-    backgroundColor: "#2196F3",
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 20,
-  },
-  verifyButtonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
+    alignSelf: "center",
+    marginTop: 30,
+    marginBottom: 30,
   },
 });
-
-export default OtpScreen;
