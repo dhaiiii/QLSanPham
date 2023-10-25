@@ -48,7 +48,7 @@ function LoginScreen() {
         console.log(response.data);
         if (response.status === 200) {
           Alert.alert("Đăng nhập thành công!");
-          navigation.navigate("Home");
+          navigation.navigate("Otp");
         }
       } catch (error) {
         console.error(error);

@@ -17,6 +17,7 @@ import ViewInfo from "./src/ViewInfo";
 import ProductDetail from "./src/ProductDetail";
 import Messages from "./src/Message";
 import Buys from "./src/Buy";
+import OTPScreen from "./src/Otp";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -152,7 +153,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Otp">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Forgotpw" component={ForgotPassword} />
@@ -161,6 +162,7 @@ const App = () => {
         <Stack.Screen name="Search" component={Searchs} />
         <Stack.Screen name="Message" component={Messages} />
         <Stack.Screen name="Buy" component={Buys} />
+        <Stack.Screen name="Otp" component={OTPScreen} />
         <Stack.Screen
           name="Home"
           component={BottomTabNavigator} // Sử dụng BottomTabNavigator là một trong các màn hình
