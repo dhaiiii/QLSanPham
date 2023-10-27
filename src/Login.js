@@ -39,7 +39,7 @@ function LoginScreen() {
     } else {
       try {
         const response = await axios.post(
-          "http://10.6.52.123:4000/users/authenticate",
+          "http://10.6.51.189:4000/users/authenticate",
           {
             username,
             password,
@@ -51,6 +51,7 @@ function LoginScreen() {
           navigation.navigate("Otp");
         }
       } catch (error) {
+        console.log("wtf");
         console.error(error);
       }
     }
@@ -62,6 +63,10 @@ function LoginScreen() {
 
   const handleForgotPassword = () => {
     navigation.navigate("Forgotpw");
+  };
+
+  const handleOtp = () => {
+    navigation.navigate("Otp");
   };
 
   return (

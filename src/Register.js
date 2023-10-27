@@ -51,7 +51,7 @@ function RegisterScreen() {
       console.log("handel register");
       try {
         const response = await axios.post(
-          "http://10.6.52.123:4000/users/register",
+          "http://10.6.51.189:4000/users/register",
           {
             firstName,
             lastName,
@@ -68,6 +68,7 @@ function RegisterScreen() {
         Alert.alert("Đăng ký thành công!");
         navigation.navigate("Login");
       } catch (error) {
+        console.log("sao lại lỗi");
         console.error(error);
       }
     };

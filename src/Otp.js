@@ -6,6 +6,8 @@ import { TouchableOpacity } from "react-native";
 import { useEffect } from "react";
 
 const Otp = () => {
+  const navigation = useNavigation();
+
   const et1 = useRef();
   const et2 = useRef();
   const et3 = useRef();
@@ -29,11 +31,31 @@ const Otp = () => {
       clearInterval(interval);
     };
   }, [count]);
-  const otpValidate = () => {
+  const otpValidate = async () => {
     let otp = "1234";
-    let enterdOtp = opt1 + opt2 + opt3 + opt4;
-    if (enterdOtp == otp) {
+    let enteredOtp = opt1 + opt2 + opt3 + opt4;
+    if (enteredOtp === otp) {
       Alert.alert("Mã Otp đúng");
+
+      // Make an API call here
+      try {
+        const response = await axios.post("http:", {
+          otp: enteredOtp,
+        });
+
+        if (response.status === 200) {
+          // API call was successful
+          const data = response.data;
+          // Process the data as needed
+          navigation.navigate("Home");
+        } else {
+          // API call failed
+          Alert.alert("API call failed");
+        }
+      } catch (error) {
+        console.error("API call error:", error);
+        Alert.alert("API call error");
+      }
     } else {
       Alert.alert("Mã OTP sai");
     }
