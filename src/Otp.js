@@ -32,7 +32,6 @@ const Otp = () => {
     };
   }, [count]);
   const otpValidate = async () => {
-    let otp = "1234";
     let enteredOtp = opt1 + opt2 + opt3 + opt4;
     if (enteredOtp === otp) {
       Alert.alert("Mã Otp đúng");

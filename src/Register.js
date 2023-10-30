@@ -51,7 +51,7 @@ function RegisterScreen() {
       console.log("handel register");
       try {
         const response = await axios.post(
-          "http://10.6.51.189:4000/users/register",
+          "http://10.6.53.112:4000/users/register",
           {
             firstName,
             lastName,
@@ -65,10 +65,12 @@ function RegisterScreen() {
           }
         );
         console.log(response.data);
-        Alert.alert("Đăng ký thành công!");
-        navigation.navigate("Login");
+        if (response.status === 200) {
+          Alert.alert("Đăng ký thành công!");
+          navigation.navigate("Login");
+        }
       } catch (error) {
-        console.log("sao lại lỗi");
+        console.log("đăng ký thất bại");
         console.error(error);
       }
     };
@@ -183,8 +185,8 @@ function RegisterScreen() {
 
         <TextInput
           style={styles.input}
-          onChangeText={(text) => setNumberidentify(text)} // Đặt giá trị bằng hàm setNumberidentify
-          value={numberidentify} // Sử dụng giá trị từ trạng thái
+          onChangeText={(text) => setNumberidentify(text)}
+          value={numberidentify}
           placeholder="numberidentify"
         />
         {numberidentifyError ? (
