@@ -39,7 +39,7 @@ function LoginScreen() {
     } else {
       try {
         const response = await axios.post(
-          "http://10.6.53.112:4000/users/authenticate",
+          "http://192.168.2.167:4000/users/authenticate",
           {
             username,
             password,
@@ -48,7 +48,9 @@ function LoginScreen() {
         console.log(response.data);
         if (response.status === 200) {
           Alert.alert("Đăng nhập thành công!");
-          navigation.navigate("Otp");
+          navigation.navigate("Otp", {
+            us: username,
+          });
         }
       } catch (error) {
         console.log("đăng nhập thất bại");

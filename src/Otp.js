@@ -4,10 +4,14 @@ import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { useEffect } from "react";
+import { useRoute } from "@react-navigation/native";
+import axios from "axios";
 
 const Otp = () => {
+  const model = {};
+  const route = useRoute();
   const navigation = useNavigation();
-
+  const { us } = route.params;
   const et1 = useRef();
   const et2 = useRef();
   const et3 = useRef();
@@ -33,30 +37,31 @@ const Otp = () => {
   }, [count]);
   const otpValidate = async () => {
     let enteredOtp = opt1 + opt2 + opt3 + opt4;
-    if (enteredOtp === otp) {
-      Alert.alert("Mã Otp đúng");
-
-      // Make an API call here
-      try {
-        const response = await axios.post("http:", {
-          otp: enteredOtp,
-        });
-
-        if (response.status === 200) {
-          // API call was successful
-          const data = response.data;
-          // Process the data as needed
-          navigation.navigate("Home");
-        } else {
-          // API call failed
-          Alert.alert("API call failed");
+    console.log({
+      username: us,
+      OtpCode: enteredOtp,
+    });
+    try {
+      const response = await axios.post(
+        "http://192.168.2.167:4000/users/verifyotp",
+        {
+          username: us,
+          OtpCode: enteredOtp,
         }
-      } catch (error) {
-        console.error("API call error:", error);
-        Alert.alert("API call error");
+      );
+
+      if (response.status === 200) {
+        // API call was successful
+        const data = response.data;
+        // Process the data as needed
+        navigation.navigate("Home");
+      } else {
+        // API call failed
+        Alert.alert("API call failed");
       }
-    } else {
-      Alert.alert("Mã OTP sai");
+    } catch (error) {
+      console.error("API call error:", error);
+      Alert.alert("API call error");
     }
   };
 
