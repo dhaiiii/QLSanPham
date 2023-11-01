@@ -45,9 +45,9 @@ const HomeScreen = (props) => {
       ) : (
         <>
           <Text style={styles.heading}>Danh sách sản phẩm</Text>
-          <TouchableOpacity onPress={handleSearch}>
+          {/* <TouchableOpacity onPress={handleSearch}>
             <Text>Search</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <FlatList
             data={dssp}
