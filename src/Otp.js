@@ -51,13 +51,8 @@ const Otp = () => {
       );
 
       if (response.status === 200) {
-        // API call was successful
         const data = response.data;
-        // Process the data as needed
         navigation.navigate("Home");
-      } else {
-        // API call failed
-        Alert.alert("API call failed");
       }
     } catch (error) {
       console.error("API call error:", error);

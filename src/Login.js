@@ -63,8 +63,8 @@ function LoginScreen() {
     navigation.navigate("Register");
   };
 
-  const handleForgotPassword = () => {
-    navigation.navigate("Forgotpw");
+  const handleForgotPassW = () => {
+    navigation.navigate("ForgotPassword");
   };
 
   const handleOtp = () => {
@@ -95,7 +95,7 @@ function LoginScreen() {
 
         <View style={styles.row}>
           <Text>Remember me</Text>
-          <TouchableOpacity onPress={handleForgotPassword}>
+          <TouchableOpacity onPress={handleForgotPassW}>
             <Text style={styles.forgotPassword}>Forgot the password</Text>
           </TouchableOpacity>
         </View>

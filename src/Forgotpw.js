@@ -9,6 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 function ForgotPassword() {
   const navigation = useNavigation();
@@ -18,7 +19,7 @@ function ForgotPassword() {
   const [passwordError, setPasswordError] = useState("");
   const [passwordAgainError, setPasswordAgainError] = useState("");
 
-  const handleForgotPassword = () => {
+  const handleForgotPassword = async () => {
     setPasswordError("");
     setPasswordAgainError("");
 
@@ -32,20 +33,23 @@ function ForgotPassword() {
       setPasswordAgainError("Passwords do not match");
     }
     if (password && passwordAgain === password) {
-      // You might want to implement password reset logic here
-      Alert.alert(
-        "Password changed successfully",
-        "Your password has been changed.",
-        [
+      try {
+        const response = await axios.post(
+          // "http://10.6.53.165:4000/users/register",
           {
-            text: "OK",
-            onPress: () => {
-              navigation.navigate("Login");
-            },
-          },
-        ],
-        { cancelable: false }
-      );
+            password,
+            passwordAgain,
+          }
+        );
+        console.log(response.data);
+        if (response.status === 200) {
+          Alert.alert("Đổi mật khẩu thành công");
+          navigation.navigate("Login");
+        }
+      } catch (error) {
+        console.log("Đổi mật khẩu thất bại");
+        console.error(error);
+      }
     }
   };
 
