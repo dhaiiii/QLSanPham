@@ -11,7 +11,6 @@ import {
 import { Link, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { firestore } from "./config/firebase";
-import axios from "axios";
 
 const Add = ({ navigation, route }) => {
   const [tenSP, settenSP] = useState("");
@@ -40,27 +39,6 @@ const Add = ({ navigation, route }) => {
       info: introduce,
       Image: linkAnh,
     };
-
-    // const handleaddProduct = async () => {
-    //   try {
-    //     console.log("add ");
-    //     const response = await axios.post(
-    //       "http://192.168.61.101:3000/api/userAddproduct",
-    //       {
-    //         username,
-    //         passwd,
-    //       }
-    //     );
-    //     console.log("OK");
-    //     console.log(response.data);
-    //     if (response.status === 200) {
-    //       Alert.alert("Them san pham thanh cong!");
-    //       navigation.navigate("Home");
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
 
     firestore()
       .collection("addProduct")
