@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { firestore } from "./config/firebase";
+import axios from "axios";
 
 const Homes = (props) => {
   const [isLoading, setisLoading] = useState(true);
@@ -22,23 +23,23 @@ const Homes = (props) => {
     navigation.navigate("Search", { searchQuery });
   };
 
-  useEffect(() => {
-    const unsubscribe = firestore()
-      .collection("addProduct")
-      .onSnapshot((querySnapshot) => {
-        const products = [];
-        querySnapshot.forEach((documentSnapshot) => {
-          products.push({
-            id: documentSnapshot.id,
-            ...documentSnapshot.data(),
-          });
-        });
-        setdssp(products);
-        setisLoading(false);
-      });
+  // useEffect(() => {
+  //   const unsubscribe = firestore()
+  //     .collection("addProduct")
+  //     .onSnapshot((querySnapshot) => {
+  //       const products = [];
+  //       querySnapshot.forEach((documentSnapshot) => {
+  //         products.push({
+  //           id: documentSnapshot.id,
+  //           ...documentSnapshot.data(),
+  //         });
+  //       });
+  //       setdssp(products);
+  //       setisLoading(false);
+  //     });
 
-    return () => unsubscribe();
-  }, []);
+  //   return () => unsubscribe();
+  // }, []);
 
   return (
     <View style={styles.dssp}>

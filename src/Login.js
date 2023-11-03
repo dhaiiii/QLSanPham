@@ -24,6 +24,10 @@ function LoginScreen() {
     setUsername("");
     setPassword("");
   };
+  const ROLES = {
+    USER: "user",
+    ADMIN: "admin",
+  };
 
   const handleLogin = async () => {
     setUsernameError([]);
@@ -39,7 +43,7 @@ function LoginScreen() {
     } else {
       try {
         const response = await axios.post(
-          "http://10.6.44.58:4000/users/authenticate",
+          "http://10.6.54.58:4000/users/authenticate",
           {
             username,
             password,

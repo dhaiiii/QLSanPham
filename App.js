@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import LoginScreen from "./src/Login";
 import RegisterScreen from "./src/Register";
 import HomeScreen from "./src/Home";
@@ -23,15 +24,16 @@ import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-const BottomTabNavigator = () => {
+const DrawerNavigator = () => {
   const navigation = useNavigation();
 
   const handleLogout = () => {
     navigation.navigate("Login");
   };
   return (
-    <Tab.Navigator
+    <Drawer.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -40,7 +42,7 @@ const BottomTabNavigator = () => {
         },
       }}
     >
-      <Tab.Screen
+      <Drawer.Screen
         name="Homes"
         component={HomeScreen}
         options={{
@@ -55,7 +57,7 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <Drawer.Screen
         name="Cart"
         component={Carts}
         options={{
@@ -71,7 +73,7 @@ const BottomTabNavigator = () => {
         }}
       />
 
-      <Tab.Screen
+      <Drawer.Screen
         name="AddProduct"
         component={Add}
         options={{
@@ -86,7 +88,7 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <Drawer.Screen
         name="Nofitication"
         component={Notifica}
         options={{
@@ -101,7 +103,7 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <Drawer.Screen
         name="Info"
         component={Infomation}
         options={{
@@ -116,7 +118,7 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <Drawer.Screen
         name="Logout"
         component={Logouts}
         options={{
@@ -132,7 +134,7 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-    </Tab.Navigator>
+    </Drawer.Navigator>
   );
 };
 
@@ -140,7 +142,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Forgotpw" component={ForgotPassword} />
@@ -153,7 +155,7 @@ const App = () => {
         <Stack.Screen name="ForgotPassword" component={ForgotPass} />
         <Stack.Screen
           name="Home"
-          component={BottomTabNavigator} // Sử dụng BottomTabNavigator là một trong các màn hình
+          component={DrawerNavigator} // Sử dụng BottomTabNavigator là một trong các màn hình
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

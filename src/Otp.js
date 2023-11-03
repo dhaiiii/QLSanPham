@@ -43,7 +43,7 @@ const Otp = () => {
     });
     try {
       const response = await axios.post(
-        "http://10.6.53.165:4000/users/verifyotp",
+        "http://10.6.54.58:4000/users/verifyotp",
         {
           username: us,
           OtpCode: enteredOtp,
@@ -51,8 +51,14 @@ const Otp = () => {
       );
 
       if (response.status === 200) {
+        // API call was successful
         const data = response.data;
+        // Process the data as needed
+        Alert.alert("Mã otp đúng");
         navigation.navigate("Home");
+      } else {
+        // API call failed
+        Alert.alert("API call failed");
       }
     } catch (error) {
       console.error("API call error:", error);
